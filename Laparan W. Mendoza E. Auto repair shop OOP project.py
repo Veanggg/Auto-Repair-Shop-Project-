@@ -33,10 +33,7 @@ def peso(v: float) -> str:
     except Exception:
         return "₱0.00"
 
-
-# =========================================================
-#  SERVICE CATALOG – LAHAT NG TYPE JOB 1–7 DITO
-# =========================================================
+#Service Catalog
 SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
     "TYPE JOB 1 — PREVENTIVE MAINTENANCE (LABOR ONLY)": [
         {"service": "Change Oil",
