@@ -5,17 +5,14 @@ import datetime
 import hashlib
 from typing import List, Dict, Any, Optional
 
-# =========================================================
-#  BASIC CONFIG
-# =========================================================
 
 DB_FILE = "ev_auto_repairshop.db"
 APP_TITLE = "EV Auto Repairshop - Admin"
 ADMIN_USER = "admin"
-ADMIN_PASS = "admin123"  # default password (can be changed in DB if gusto mo)
+ADMIN_PASS = "admin123"  # default password 
 
-ctk.set_appearance_mode("dark")       # dark mode bagay sa EV / tech theme
-ctk.set_default_color_theme("green")  # green theme para sa EV / eco vibe
+ctk.set_appearance_mode("dark")       
+ctk.set_default_color_theme("green")  
 
 
 def hashpw(p: str) -> str:
@@ -426,6 +423,7 @@ class DB:
                 parts_recommended TEXT,
                 mechanic1_id INTEGER,
                 mechanic2_id INTEGER,
+                mechanic3_id INTEGER,
                 status TEXT,
                 date_start TEXT,
                 time_start TEXT,
