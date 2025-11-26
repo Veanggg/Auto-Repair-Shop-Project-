@@ -1788,7 +1788,7 @@ class EVAutoRepairApp(ctk.CTk):
         selected_parts = [part for part, var in self.part_vars if var.get()]
         parts = ", ".join(selected_parts)
 
-        print(f"[DEBUG] Saving repair order for client_id={client_id}, vehicle_id={vehicle_id}, service={info['service']}")
+        print(f"Saving repair order for client_id={client_id}, vehicle_id={vehicle_id}, service={info['service']}")
 
 
         m1 = info["mechanics"][0] if len(info["mechanics"]) > 0 else None
@@ -1824,9 +1824,9 @@ class EVAutoRepairApp(ctk.CTk):
                 eta_minutes=eta_minutes,
                 total_cost=total,
             )
-            print("[DEBUG] Repair order saved successfully.")
+            print("Repair order saved successfully.")
         except Exception as e:
-            print(f"[ERROR] Failed to save repair order: {e}")
+            print(f"Failed to save repair order: {e}")
 
         messagebox.showinfo("Saved", "Service / repair order saved.", parent=self)
         self.txt_description.delete("0.0", "end")
@@ -1959,10 +1959,7 @@ class EVAutoRepairApp(ctk.CTk):
         self.refresh_history()
 
 
-    # =========================================================
     #  REPORTS PAGE
-    # =========================================================
-
     def build_reports_page(self, parent: ctk.CTkFrame):
         title = ctk.CTkLabel(
             parent, text="Reports",
