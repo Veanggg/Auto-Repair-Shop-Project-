@@ -335,9 +335,9 @@ SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
          "mechanics": ["Miguel Torres", "Victor Magtangol", "Samuel Reyes"], 
          "parts": "Tow Hooks, Cables", 
          "minor_price": 550, 
-         "major_price": 950, 
+         "major_price": 1200, 
          "labor_price": "500–1000", 
-         "total_price": "1050–1950", 
+         "total_price": "1050–2200", 
          "time_label": "Varies", 
          "time_minutes": 120},
     ],
@@ -466,10 +466,6 @@ class DB:
             existing_mech = self.execute("SELECT id FROM mechanics WHERE name=?", (name,), fetch=True)
             if not existing_mech:
                 self.execute("INSERT INTO mechanics (name, contact, specialization) VALUES (?,?,?)", (name, contact, specialization))
-
-        # Removed: cur.execute("DELETE FROM repair_orders")
-        # This line was causing all repair orders to be deleted on every restart.
-        # By removing it, repair orders will now persist in the database.
 
 
     # Admin / Login 
@@ -864,7 +860,6 @@ class EVAutoRepairApp(ctk.CTk):
         self.after(100, self.show_login)
 
     # LOGIN FLOW 
-
     def show_login(self):
         LoginDialog(self, self.db, self.on_login_success)
 
@@ -879,8 +874,7 @@ class EVAutoRepairApp(ctk.CTk):
         self.refresh_reports()
         self.refresh_history()
 
-    # ---------- MENU + PAGES ----------
-
+    #  MENU + PAGES 
     def create_menu(self):
         def add_menu_button(text, page_key):
             btn = ctk.CTkButton(
@@ -995,7 +989,7 @@ class EVAutoRepairApp(ctk.CTk):
         refresh_btn = ctk.CTkButton(parent, text="Refresh", command=self.refresh_dashboard)
         refresh_btn.pack(anchor="w", pady=8)
 
-
+    #Error handling
     def refresh_dashboard(self):
         stats = self.db.get_today_stats()
         try:
@@ -1014,6 +1008,7 @@ class EVAutoRepairApp(ctk.CTk):
             self._lbl_done_value.configure(text=str(int(stats['done_repairs'] or 0)))
         except Exception:
             self._lbl_done_value.configure(text="0")
+
 
         # --- Monthly Overview ---
         now = datetime.datetime.now()
@@ -1155,7 +1150,7 @@ class EVAutoRepairApp(ctk.CTk):
         self.cb_status.grid(row=8, column=1, padx=5, pady=3)
         self.cb_status.set("Check-in")
 
-        # ETA display
+        # Est. Time display
         eta_frame = ctk.CTkFrame(left)
         eta_frame.grid(row=9, column=0, columnspan=2, sticky="w", padx=5, pady=3)
 
@@ -1189,7 +1184,7 @@ class EVAutoRepairApp(ctk.CTk):
             command=self.save_service
         ).pack(side="left", padx=5)
 
-        # --- Right: List of repair orders (open / all) ---
+        # List of repair orders (open / all) 
 
         ctk.CTkLabel(
             right, text="Existing Repair Orders",
@@ -1217,6 +1212,7 @@ class EVAutoRepairApp(ctk.CTk):
             if col == "Service":
                 width = 160
             self.tree_orders.column(col, width=width)
+
         # hide the numeric ID column (keep data but not visible)
         try:
             self.tree_orders.column("ID", width=0, minwidth=0, stretch=False)
@@ -1244,9 +1240,7 @@ class EVAutoRepairApp(ctk.CTk):
             command=self.mark_order_done
         ).pack(side="right", padx=5)
 
-    # =========================================================
-    #  CLIENT PAGE
-    # =========================================================
+    # CLIENT PAGE
 
     def build_client_page(self, parent: ctk.CTkFrame):
         title = ctk.CTkLabel(
@@ -1281,7 +1275,7 @@ class EVAutoRepairApp(ctk.CTk):
         )
         self.cb_brand = ctk.CTkComboBox(
             form_frame,
-            values=["Toyota", "Honda", "Mitsubishi", "Nissan", "Ford", "Suzuki", "Hyundai", "Others"]
+            values=["Toyota", "Honda", "Mitsubishi", "Nissan", "Ford", "Suzuki", "Hyundai"]
         )
         self.entry_model = ctk.CTkEntry(form_frame, width=200)
 
@@ -1314,7 +1308,7 @@ class EVAutoRepairApp(ctk.CTk):
         style_clients.configure("Treeview", font=("Segoe UI", 12))
         style_clients.configure("Treeview.Heading", font=("Segoe UI", 12, "bold"))
         self.tree_clients = ttk.Treeview(
-            table_frame, columns=columns, show="headings", height=24
+            table_frame, columns=columns, show="headings", height=23
         )
         for col in columns:
             self.tree_clients.heading(col, text=col)
@@ -1388,7 +1382,7 @@ class EVAutoRepairApp(ctk.CTk):
         except Exception:
             pass
 
-    # --- helper for service page ---
+    # helper for service page 
 
     def refresh_service_clients(self):
         rows = self.db.get_clients()
@@ -1483,7 +1477,7 @@ class EVAutoRepairApp(ctk.CTk):
             text=f"Major Price: {peso(info['major_price'])}"
         )
 
-        # start + ETA preview
+        # start + Est. Time Done preview
         start_date = now_date()
         start_time = now_time()
         eta_dt = datetime.datetime.now() + datetime.timedelta(
@@ -1495,7 +1489,7 @@ class EVAutoRepairApp(ctk.CTk):
             text=f"Start: {start_date} {start_time}"
         )
         self.lbl_eta_dt.configure(
-            text=f"ETA Done: {eta_date} {eta_time} ({info['time_label']})"
+            text=f"Est. Time Done: {eta_date} {eta_time} ({info['time_label']})"
         )
 
         self.update_service_price()
