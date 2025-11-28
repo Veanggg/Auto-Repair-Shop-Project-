@@ -1,0 +1,338 @@
+# config.py
+import datetime
+import hashlib
+from typing import List, Dict, Any
+
+DB_FILE = "SPLITTED_File_ev_auto_repairshop.db"
+APP_TITLE = "EV Auto Repairshop - Admin"
+ADMIN_USER = "admin"
+ADMIN_PASS = "admin123"  # default password 
+
+
+def hashpw(p: str) -> str:
+    return hashlib.sha256(p.encode("utf-8")).hexdigest()
+
+
+def now_date() -> str:
+    return datetime.date.today().isoformat()
+
+
+def now_time() -> str:
+    return datetime.datetime.now().strftime("%H:%M")
+
+
+def peso(v: float) -> str:
+    try:
+        return f"₱{float(v):,.2f}"
+    except Exception:
+        return "₱0.00"
+
+
+SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
+    "PREVENTIVE MAINTENANCE": [
+        {"service": "Change Oil",
+          "mechanics": ["Ramon Santos", "Renato Villanueva", "Carlos Bautista"],
+          "parts": "Engine Oil, Filter, Gasket",
+          "minor_price": 1180, "major_price": 1910,
+          "labor_price": "350–600",
+          "total_price": "1530–2510",
+          "time_label": "30m–1h",
+          "time_minutes": 60},
+
+        {"service": "Tire Replacement",
+          "mechanics": ["Ramon Santos", "Renato Villanueva", "Carlos Bautista"],
+          "parts": "Tire, Valve, Weights",
+          "minor_price": 2630,
+          "major_price": 7270,
+          "labor_price": "300–500",
+          "total_price": "2930–7770",
+          "time_label": "30m–1h",
+          "time_minutes": 60},
+
+        {"service": "Wheel Alignment & Balancing",
+         "mechanics": ["Ramon Santos", "Renato Villanueva", "Carlos Bautista"],
+         "parts": "Bolts, Weights",
+         "minor_price": 200,
+         "major_price": 420,
+         "labor_price": "600–900",
+         "total_price": "800–1320",
+         "time_label": "1–2 hrs",
+         "time_minutes": 90},
+
+        {"service": "Engine Tune-Up",
+         "mechanics": ["Ramon Santos", "Renato Villanueva", "Carlos Bautista"],
+         "parts": "Spark Plugs, Filters, Cleaner",
+         "minor_price": 700,
+         "major_price": 1400,
+         "labor_price": "800–1200",
+         "total_price": "1500–2600",
+         "time_label": "3–5 hrs",
+         "time_minutes": 240},
+
+        {"service": "Battery Replacement",
+         "mechanics": ["Ramon Santos", "Renato Villanueva", "Carlos Bautista"],
+         "parts": "Battery, Terminals",
+         "minor_price": 3150,
+         "major_price": 6800,
+         "labor_price": "300–500",
+         "total_price": "3450–7300",
+         "time_label": "30m–1h",
+         "time_minutes": 60},
+
+        {"service": "General Check-up",
+         "mechanics": ["Ramon Santos", "Renato Villanueva", "Carlos Bautista"],
+         "parts": "Scanner Use",
+         "minor_price": 0,
+         "major_price": 200,
+         "labor_price": "300–500",
+         "total_price": "300–700",
+         "time_label": "30m–1h",
+         "time_minutes": 60},
+
+        {"service": "Wiper/Washer Repair",
+         "mechanics": ["Ramon Santos", "Renato Villanueva", "Carlos Bautista"],
+         "parts": "Wiper, Pump",
+         "minor_price": 650,
+         "major_price": 1400,
+         "labor_price": "300–500",
+         "total_price": "950–1900",
+         "time_label": "30m–1h",
+         "time_minutes": 60},
+
+        {"service": "Underchassis Wash & Rustproof",
+         "mechanics": ["Ramon Santos", "Renato Villanueva", "Carlos Bautista"],
+         "parts": "Coating",
+         "minor_price": 300,
+         "major_price": 600,
+         "labor_price": "700–1200",
+         "total_price": "1000–1800",
+         "time_label": "2–4 hrs",
+         "time_minutes": 180},
+    ],
+    "TYPE JOB 2 — ENGINE & TRANSMISSION (LABOR ONLY)": [
+        {"service": "Transmission Check/Repair",
+         "mechanics": ["Jomar Castillo", "Eduardo Cruz", "Michael Rivera"],
+         "parts": "ATF, Filter, Gasket",
+         "minor_price": 1400,
+         "major_price": 3200,
+         "labor_price": "4000–7000",
+         "total_price": "5400–10200",
+         "time_label": "1–3 days",
+         "time_minutes": 60 * 48},
+
+        {"service": "Engine Overhaul",
+         "mechanics": ["Jomar Castillo", "Eduardo Cruz", "Michael Rivera"],
+         "parts": "Pistons, Gaskets, Seals",
+         "minor_price": 5000,
+         "major_price": 11500,
+         "labor_price": "10000–18000",
+         "total_price": "15000–29500",
+         "time_label": "3–7 days",
+         "time_minutes": 60 * 96},
+
+        {"service": "Clutch Repair",
+         "mechanics": ["Jomar Castillo", "Eduardo Cruz", "Michael Rivera"],
+         "parts": "Disc, Plate, Bearing",
+         "minor_price": 3100,
+         "major_price": 7400,
+         "labor_price": "3500–6000",
+         "total_price": "6600–13400",
+         "time_label": "1–2 days",
+         "time_minutes": 60 * 36},
+
+        {"service": "Timing Belt/Chain Replace",
+         "mechanics": ["Jomar Castillo", "Eduardo Cruz", "Michael Rivera"],
+         "parts": "Belt/Chain, Tensioner",
+         "minor_price": 1700,
+         "major_price": 3400,
+         "labor_price": "3000–5000",
+         "total_price": "4700–8400",
+         "time_label": "1–2 days",
+         "time_minutes": 60 * 36},
+
+        {"service": "Power Steering Repair",
+         "mechanics": ["Jomar Castillo", "Eduardo Cruz", "Michael Rivera"],
+         "parts": "Seals, Fluid",
+         "minor_price": 400,
+         "major_price": 750,
+         "labor_price": "2500–4500",
+         "total_price": "2900–5250",
+         "time_label": "1–2 days",
+         "time_minutes": 60 * 36},
+
+        {"service": "Fuel System Cleaning",
+         "mechanics": ["Jomar Castillo", "Eduardo Cruz", "Michael Rivera"],
+         "parts": "Fuel Cleaner",
+         "minor_price": 250,
+         "major_price": 400,
+         "labor_price": "1500–2500",
+         "total_price": "1750–2900",
+         "time_label": "2–4 hrs",
+         "time_minutes": 180},
+
+        {"service": "Head Gasket Replacement",
+         "mechanics": ["Jomar Castillo", "Eduardo Cruz", "Michael Rivera"],
+         "parts": "Gasket, Bolts, Coolant",
+         "minor_price": 1350,
+         "major_price": 2950,
+         "labor_price": "6000–9000",
+         "total_price": "7350–11950",
+         "time_label": "2–5 days",
+         "time_minutes": 60 * 72},
+    ],
+    "TYPE JOB 3 — COOLING & AIRCON (LABOR ONLY)": [
+        {"service": "Radiator Flush & Repair",
+         "mechanics": ["Johnny Fernandez", "Alberto Ramirez", "Miguel Torres"],
+         "parts": "Coolant, Hoses",
+         "minor_price": 550,
+         "major_price": 1200,
+         "labor_price": "800–1200",
+         "total_price": "1350–2400",
+         "time_label": "1–2 hrs",
+         "time_minutes": 90},
+
+        {"service": "Aircon Cleaning/Repair",
+         "mechanics": ["Johnny Fernandez", "Alberto Ramirez", "Miguel Torres"],
+         "parts": "Freon, Filter",
+         "minor_price": 600,
+         "major_price": 1200,
+         "labor_price": "900–1500",
+         "total_price": "1500–2700",
+         "time_label": "2–4 hrs",
+         "time_minutes": 150},
+    ],
+    "TYPE JOB 4 — BRAKE, SUSPENSION, TIRE (LABOR ONLY)": [
+        {"service": "Brake System Repair",
+         "mechanics": ["Samuel Reyes", "Antonio Mendoza", "Victor Magtangol"],
+         "parts": "Pads, Fluid",
+         "minor_price": 950,
+         "major_price": 2800,
+         "labor_price": "800–1200",
+         "total_price": "1750–4000",
+         "time_label": "2–3 hrs",
+         "time_minutes": 150},
+
+        {"service": "Suspension Repair",
+         "mechanics": ["Samuel Reyes", "Antonio Mendoza", "Victor Magtangol"],
+         "parts": "Joints, Shocks",
+         "minor_price": 1700,
+         "major_price": 4900,
+         "labor_price": "1500–3000",
+         "total_price": "3200–7900",
+         "time_label": "1–2 days",
+         "time_minutes": 60 * 36},
+
+        {"service": "Tire Vulcanizing",
+         "mechanics": ["Samuel Reyes", "Antonio Mendoza", "Victor Magtangol"],
+         "parts": "Patch",
+         "minor_price": 50,
+         "major_price": 100,
+         "labor_price": "50–100",
+         "total_price": "100–200",
+         "time_label": "15–30 min",
+         "time_minutes": 30},
+    ],
+    "TYPE JOB 5 — ELECTRICAL & ELECTRONICS (LABOR ONLY)": [
+        {"service": "Electrical System Repair",
+         "mechanics": ["Roberto Dela Cruz", "Miguel Torres", "Victor Magtangol"],
+         "parts": "Wires, Relays",
+         "minor_price": 130,
+         "major_price": 300,
+         "labor_price": "400–800",
+         "total_price": "530–1100",
+         "time_label": "2–5 hrs",
+         "time_minutes": 180},
+
+        {"service": "Headlight Restoration",
+         "mechanics": ["Roberto Dela Cruz", "Miguel Torres", "Victor Magtangol"],
+         "parts": "Sandpaper, Polish",
+         "minor_price": 270,
+         "major_price": 550,
+         "labor_price": "300–600",
+         "total_price": "570–1150",
+         "time_label": "1–2 hrs",
+         "time_minutes": 90},
+
+        {"service": "ECU Scanning",
+         "mechanics": ["Roberto Dela Cruz", "Miguel Torres", "Victor Magtangol"],
+         "parts": "—", "minor_price": 0,
+         "major_price": 0,
+         "labor_price": "300–600",
+         "total_price": "300–600",
+         "time_label": "30–60 min",
+         "time_minutes": 60},
+
+        {"service": "Horn / Light Install",
+         "mechanics": ["Roberto Dela Cruz", "Miguel Torres", "Victor Magtangol"],
+         "parts": "Horn, Switch",
+         "minor_price": 450, "major_price": 1000,
+         "labor_price": "200–400",
+         "total_price": "650–1400",
+         "time_label": "30–60 min",
+         "time_minutes": 60},
+    ],
+    "TYPE JOB 6 — BODY, PAINT, INTERIOR (LABOR ONLY)": [
+        {"service": "Car Wash & Interior Cleaning",
+         "mechanics": ["Antonio Mendoza", "Victor Magtangol", "Samuel Reyes"],
+         "parts": "Shampoo",
+         "minor_price": 100,
+         "major_price": 150,
+         "labor_price": "150–250",
+         "total_price": "250–400",
+         "time_label": "30–60 min",
+         "time_minutes": 60},
+
+        {"service": "Detailing & Wax",
+         "mechanics": ["Antonio Mendoza", "Victor Magtangol", "Samuel Reyes"],
+         "parts": "Wax",
+         "minor_price": 250,
+         "major_price": 450,
+         "labor_price": "800–1200",
+         "total_price": "1050–1650",
+         "time_label": "2–4 hrs",
+         "time_minutes": 150},
+
+        {"service": "Paint & Dent Repair",
+         "mechanics": ["Antonio Mendoza", "Victor Magtangol", "Samuel Reyes"],
+         "parts": "Paint, Filler",
+         "minor_price": 650,
+         "major_price": 1500,
+         "labor_price": "1500–4000",
+         "total_price": "2150–5500",
+         "time_label": "1–5 days",
+         "time_minutes": 60 * 72},
+
+        {"service": "Muffler/Exhaust Repair",
+         "mechanics": ["Antonio Mendoza", "Victor Magtangol", "Samuel Reyes"],
+         "parts": "Pipe, Clamps",
+         "minor_price": 850,
+         "major_price": 2100,
+         "labor_price": "600–900",
+         "total_price": "1450–3000",
+         "time_label": "2–5 hrs",
+         "time_minutes": 180},
+
+        {"service": "Door/Window Mechanism Repair",
+         "mechanics": ["Antonio Mendoza", "Victor Magtangol", "Samuel Reyes"],
+         "parts": "Motor, Switch",
+         "minor_price": 1350,
+         "major_price": 2300,
+         "labor_price": "500–800",
+         "total_price": "1850–3100",
+         "time_label": "1–3 hrs",
+         "time_minutes": 120},
+    ],
+    "TYPE JOB 7 — EMERGENCY SERVICES (LABOR ONLY)": [
+        {"service": "Emergency Roadside Assistance",
+         "mechanics": ["Miguel Torres", "Victor Magtangol", "Samuel Reyes"],
+         "parts": "Tow Hooks, Cables", "minor_price": 550,
+         "major_price": 950, "labor_price": "500–1000",
+         "total_price": "1050–1950",
+         "time_label": "Varies",
+         "time_minutes": 120},
+    ],
+}
+
+TYPE_JOB_LIST = list(SERVICE_CATALOG.keys())
+STATUS_LIST = ["Check-in", "Pickup"]
+
