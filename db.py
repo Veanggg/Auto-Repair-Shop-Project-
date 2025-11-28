@@ -1,18 +1,9 @@
-# db.py - extracted DB class
 import sqlite3
 import datetime
 from typing import Optional
 
-from hashlib import sha256
+from config import ADMIN_USER, ADMIN_PASS, hashpw, now_date, now_time
 
-def hashpw(p: str) -> str:
-    return sha256(p.encode('utf-8')).hexdigest()
-
-def now_date() -> str:
-    return datetime.date.today().isoformat()
-
-def now_time() -> str:
-    return datetime.datetime.now().strftime("%H:%M")
 
 
 class DB:
@@ -20,7 +11,7 @@ class DB:
         self.conn = sqlite3.connect(path, check_same_thread=False)
         self.conn.execute("PRAGMA foreign_keys = ON")
         self.init_schema()
-        self.seed_admin()
+        self.seed_defaults()
 
     def execute(self, sql: str, params: tuple = (), fetch=False, many=False):
         cur = self.conn.cursor()
@@ -112,16 +103,45 @@ class DB:
             )
         """)
 
-    def seed_admin(self):
-        rows = self.execute("SELECT COUNT(*) FROM admins", fetch=True)
-        if rows[0][0] == 0:
+    def seed_defaults(self):
+        # ensure there is at least one admin
+        admins = self.execute("SELECT COUNT(*) FROM admins", fetch=True)
+        if admins and admins[0][0] == 0:
             self.execute(
                 "INSERT INTO admins (username, password) VALUES (?,?)",
                 (ADMIN_USER, hashpw(ADMIN_PASS))
             )
 
-    # Admin / Login 
+        mech_data = [
+            ("Ramon Santos", "0917-345-8210", "Preventive Maintenance Specialist"),
+            ("Renato Villanueva", "0921-883-4472", "Preventive Maintenance Specialist"),
+            ("Carlos Bautista", "0968-221-7345", "Preventive Maintenance Specialist"),
+            ("Jomar Castillo", "0919-701-5594", "Engine & Transmission Specialist"),
+            ("Eduardo Cruz", "0928-114-7830", "Engine & Transmission Specialist"),
+            ("Michael Rivera", "0956-244-1908", "Engine & Transmission Specialist"),
+            ("Johnny Fernandez", "0918-994-3210", "Cooling & Aircon Specialist"),
+            ("Alberto Ramirez", "0922-518-0045", "Cooling & Aircon Specialist"),
+            ("Miguel Torres", "0961-643-9072", "Cooling / Electrical / Emergency Specialist"),
+            ("Samuel Reyes", "0917-332-7745", "Brake / Suspension / Body Specialist"),
+            ("Antonio Mendoza", "0920-918-3401", "Body / Paint / Interior Specialist"),
+            ("Victor Magtangol", "0955-877-1093", "Suspension / Electrical / Emergency Specialist"),
+            ("Roberto Dela Cruz", "0917-605-8824", "Electrical & Electronics Specialist"),
+        ]
 
+        for name, contact, specialization in mech_data:
+            existing_mech = self.execute(
+                "SELECT id FROM mechanics WHERE name=?",
+                (name,),
+                fetch=True
+            )
+            if not existing_mech:
+                self.execute(
+                    "INSERT INTO mechanics (name, contact, specialization) "
+                    "VALUES (?,?,?)",
+                    (name, contact, specialization)
+                )
+
+    # Admin / Login 
     def verify_admin(self, username: str, password: str) -> bool:
         rows = self.execute(
             "SELECT password FROM admins WHERE username=?",
@@ -133,7 +153,6 @@ class DB:
         return rows[0][0] == hashpw(password)
 
     # Clients & Vehicles 
-
     def add_client_with_vehicle(
         self, name: str, contact: str,
         vehicle_type: str, brand: str, model: str
