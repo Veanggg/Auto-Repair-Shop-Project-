@@ -180,7 +180,7 @@ class ServicePage(ctk.CTkFrame):
 
         self.chk_show_completed_var = ctk.BooleanVar(value=False)
         ctk.CTkCheckBox(
-            btn2_frame, text="Show Completed Orders",
+            btn2_frame, text="Show Completed Jobs",
             variable=self.chk_show_completed_var,
             command=self.refresh_orders_table
         ).pack(side="left", padx=10)
