@@ -4,8 +4,6 @@ from typing import Optional
 
 from config import ADMIN_USER, ADMIN_PASS, hashpw, now_date, now_time
 
-
-
 class DB:
     def __init__(self, path: str):
         self.conn = sqlite3.connect(path, check_same_thread=False)
@@ -298,8 +296,8 @@ class DB:
         ))
 
     def set_repair_status(self, order_id: int, new_status: str):
-        # Pickup- means picked up same day -> set done date/time now
-        # Check-in- means still not done (multi-day) -> clear done date/time
+        # Pickup- means picked up same day - set done date/time now
+        # Check-in- means still not done (multi-day) - clear done date/time
         if new_status == "Pickup":
             date_done = now_date()
             time_done = now_time()
@@ -380,12 +378,13 @@ class DB:
                    ro.specific_service,
                    ro.status,
                    ro.total_cost,
-                   m1.name, m2.name
+                m1.name, m2.name, m3.name
             FROM repair_orders ro
             JOIN clients c ON c.id = ro.client_id
             JOIN vehicles v ON v.id = ro.vehicle_id
             LEFT JOIN mechanics m1 ON m1.id = ro.mechanic1_id
             LEFT JOIN mechanics m2 ON m2.id = ro.mechanic2_id
+                LEFT JOIN mechanics m3 ON m3.id = ro.mechanic3_id
             {where_clause}
             ORDER BY ro.date_start DESC, ro.time_start DESC
         """, params, fetch=True)
@@ -419,6 +418,4 @@ class DB:
                 """, fetch=True)
 
 
-
-#  LOGIN 
 
