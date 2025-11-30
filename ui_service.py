@@ -40,7 +40,6 @@ class ServicePage(ctk.CTkFrame):
         right.pack(side="left", fill="both", expand=True, padx=5, pady=5)
 
         # ---------- LEFT: FORM ----------
-
         ctk.CTkLabel(left, text="Select Client:").grid(
             row=0, column=0, sticky="w", padx=5, pady=3)
         self.cb_service_client = ctk.CTkComboBox(
@@ -236,8 +235,11 @@ class ServicePage(ctk.CTkFrame):
                 for vid, vtype, brand, model in rows]
         self.cb_service_vehicle.configure(values=vals)
         if vals:
-            if not self.cb_service_vehicle.get():
+            # Always select the first vehicle for the chosen client
+            try:
                 self.cb_service_vehicle.set(vals[0])
+            except Exception:
+                pass
         else:
             self.cb_service_vehicle.set("")
 
@@ -328,7 +330,6 @@ class ServicePage(ctk.CTkFrame):
 
 
     # ---------- save service ----------
-
     def save_service(self):
         c_text = self.cb_service_client.get().strip()
         v_text = self.cb_service_vehicle.get().strip()
