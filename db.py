@@ -53,7 +53,6 @@ class DB:
             )
         """)
 
-        # Ensure vehicles has a 'problem' column to store diagnosis/problems per vehicle
         try:
             # SQLite doesn't support IF NOT EXISTS for ALTER TABLE, so attempt and ignore error
             self.execute("ALTER TABLE vehicles ADD COLUMN problem TEXT DEFAULT ''")
@@ -213,10 +212,6 @@ class DB:
         return None
 
     def append_vehicle_problem(self, vehicle_id: int, text: str) -> bool:
-        """Append diagnosis/problem text to the vehicle's `problem` field.
-
-        Returns True if vehicle exists and was updated, False otherwise.
-        """
         rows = self.execute(
             "SELECT problem FROM vehicles WHERE id=?",
             (vehicle_id,),
