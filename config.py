@@ -109,7 +109,7 @@ SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
          "time_label": "2–4 hrs",
          "time_minutes": 180},
     ],
-    "TYPE JOB 2 — ENGINE & TRANSMISSION (LABOR ONLY)": [
+    "ENGINE & TRANSMISSION": [
         {"service": "Transmission Check/Repair",
          "mechanics": ["Jomar Castillo", "Eduardo Cruz", "Michael Rivera"],
          "parts": "ATF, Filter, Gasket",
@@ -180,7 +180,7 @@ SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
          "time_label": "2–5 days",
          "time_minutes": 60 * 72},
     ],
-    "TYPE JOB 3 — COOLING & AIRCON (LABOR ONLY)": [
+    "COOLING & AIRCON": [
         {"service": "Radiator Flush & Repair",
          "mechanics": ["Johnny Fernandez", "Alberto Ramirez", "Miguel Torres"],
          "parts": "Coolant, Hoses",
@@ -201,7 +201,7 @@ SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
          "time_label": "2–4 hrs",
          "time_minutes": 150},
     ],
-    "TYPE JOB 4 — BRAKE, SUSPENSION, TIRE (LABOR ONLY)": [
+    " BRAKE, SUSPENSION, TIRE": [
         {"service": "Brake System Repair",
          "mechanics": ["Samuel Reyes", "Antonio Mendoza", "Victor Magtangol"],
          "parts": "Pads, Fluid",
@@ -232,7 +232,7 @@ SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
          "time_label": "15–30 min",
          "time_minutes": 30},
     ],
-    "TYPE JOB 5 — ELECTRICAL & ELECTRONICS (LABOR ONLY)": [
+    "ELECTRICAL & ELECTRONICS": [
         {"service": "Electrical System Repair",
          "mechanics": ["Roberto Dela Cruz", "Miguel Torres", "Victor Magtangol"],
          "parts": "Wires, Relays",
@@ -271,7 +271,7 @@ SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
          "time_label": "30–60 min",
          "time_minutes": 60},
     ],
-    "TYPE JOB 6 — BODY, PAINT, INTERIOR (LABOR ONLY)": [
+    "BODY, PAINT, INTERIOR": [
         {"service": "Car Wash & Interior Cleaning",
          "mechanics": ["Antonio Mendoza", "Victor Magtangol", "Samuel Reyes"],
          "parts": "Shampoo",
@@ -322,7 +322,7 @@ SERVICE_CATALOG: Dict[str, List[Dict[str, Any]]] = {
          "time_label": "1–3 hrs",
          "time_minutes": 120},
     ],
-    "TYPE JOB 7 — EMERGENCY SERVICES (LABOR ONLY)": [
+    "EMERGENCY SERVICES": [
         {"service": "Emergency Roadside Assistance",
          "mechanics": ["Miguel Torres", "Victor Magtangol", "Samuel Reyes"],
          "parts": "Tow Hooks, Cables", "minor_price": 550,
