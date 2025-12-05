@@ -1,4 +1,3 @@
-# ui_service.py
 import datetime
 from typing import Optional, Dict, Any, List
 
@@ -39,7 +38,7 @@ class ServicePage(ctk.CTkFrame):
         right = ctk.CTkFrame(main)
         right.pack(side="left", fill="both", expand=True, padx=5, pady=5)
 
-        # ---------- LEFT: FORM ----------
+        # LEFT FORM 
         ctk.CTkLabel(left, text="Select Client:").grid(
             row=0, column=0, sticky="w", padx=5, pady=3)
         self.cb_service_client = ctk.CTkComboBox(
@@ -144,8 +143,7 @@ class ServicePage(ctk.CTkFrame):
 
         ctk.CTkButton(btn_frame, text="Save service", command=self.save_service).pack(side="left", padx=5)
 
-        # ---------- RIGHT: ORDERS TABLE ----------
-
+        #  RIGHT ORDERS TABLE 
         ctk.CTkLabel(
             right, text="Existing Repair Orders",
             font=ctk.CTkFont(size=14, weight="bold")
@@ -188,12 +186,11 @@ class ServicePage(ctk.CTkFrame):
             btn2_frame, text="Refresh",
             command=self.refresh_orders_table
         ).pack(side="right", padx=5)
-        ctk.CTkButton(
-            btn2_frame, text="Mark as Done (Pickup)",
+        ctk.CTkButton(            btn2_frame, text="Mark as Done (Pickup)",
             command=self.mark_order_done
         ).pack(side="right", padx=5)
 
-    # ---------- public API ----------
+    # public API 
 
     def refresh(self):
         self.refresh_service_clients()
@@ -203,8 +200,7 @@ class ServicePage(ctk.CTkFrame):
     def refresh_clients_from_outside(self):
         self.refresh_service_clients()
 
-    # ---------- helpers for combos ----------
-
+    # helpers for combos
     def refresh_service_clients(self):
         rows = self.db.get_clients()
         values = [f"{cid} - {name}" for cid, name, _c in rows]
@@ -329,7 +325,7 @@ class ServicePage(ctk.CTkFrame):
         self.lbl_total_price.configure(text=f"Total Cost (selected): {peso(base)}")
 
 
-    # ---------- save service ----------
+    #  save service 
     def save_service(self):
         c_text = self.cb_service_client.get().strip()
         v_text = self.cb_service_vehicle.get().strip()
@@ -400,7 +396,7 @@ class ServicePage(ctk.CTkFrame):
         self.refresh_orders_table()
         self._refresh_other_pages()
 
-    # ---------- orders table ----------
+    # orders table 
 
     def refresh_orders_table(self):
         for row in self.tree_orders.get_children():
