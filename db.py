@@ -320,8 +320,8 @@ class DB:
 
         in_progress = self.execute("""
             SELECT COUNT(*) FROM repair_orders
-            WHERE date_start=? AND (status!='Pickup' OR status IS NULL)
-        """, (today,), fetch=True)[0][0]
+            WHERE status!='Pickup' OR status IS NULL
+        """, (), fetch=True)[0][0]
 
         today_sales = self.execute("""
             SELECT COALESCE(SUM(total_cost),0) FROM repair_orders
