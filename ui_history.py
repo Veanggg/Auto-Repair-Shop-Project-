@@ -1,4 +1,3 @@
-# ui_history.py
 import customtkinter as ctk
 from tkinter import ttk
 
